@@ -1,0 +1,135 @@
+swagger: '2.0'
+info:
+  version: 'v1'
+  title: 'Usuarios API'
+  description: 'Ejemplo CRUD de Usuarios'
+# host: ejemplo.io
+# basePath: /v1
+securityDefinitions:
+  UserSecurity:
+    type: basic
+schemes:
+ - https
+ 
+paths:
+  /Users:
+    get:
+      tags: 
+      - user
+      operationId: getAllUsers
+      produces: 
+      - application/json
+      responses:
+        200:
+          description: devuelve lista usuarios
+          schema:
+            $ref: '#/definitions/UserResponse'
+        204:
+          description: no contiene usuarios
+    post:
+      tags: 
+      - user
+      summary: Crea Usuario
+      description: Crea un Usuario en la BBDD
+      operationId: createUser 
+      parameters: 
+      - in: body
+        name: body
+        description: Creado objeto usuario
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        200:
+          description: OK    
+  /Users/{UserId}:
+    get:
+      tags: 
+      - user
+      summary: Obtiene user por id
+      operationId: findUserById
+      produces: 
+      - application/json
+      parameters: 
+      - name: UserId
+        in: path
+        required: true
+        type: integer
+      responses:
+        200:
+          description: existe Usuario
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: usuario incorrecto
+        404:
+          description: usuario no existe
+    delete:
+      tags: 
+      - user
+      summary: Borrar usuario
+      operationId: deleteUser
+      description: Borra el usuario añadido en el path
+      parameters: 
+      - name: UserId
+        in: path
+        required: true
+        type: integer
+      responses:
+        200:
+          description: Ok
+        400:
+          description: usuario invalido
+        404:
+          description: usuario no existe
+    put:
+      tags:
+      - user
+      summary: Actualizar usuario 
+      description: Actualiza usuario por Id
+      operationId: updateUser
+      produces:
+      - application/json
+      parameters: 
+      - name: UserId
+        in: path
+        required: true
+        type: integer 
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        200:
+          description: OK
+        400:
+          description: usuario invalido
+        404:
+          description: usuario no existe
+    
+definitions: 
+  UserResponse: 
+    type: object
+    description: lista de User
+    properties:
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+      
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      surname:
+        type: string
+      phoneNumber:
+        type: string
+    
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /Alvarocrocop/Usuarios/v1
